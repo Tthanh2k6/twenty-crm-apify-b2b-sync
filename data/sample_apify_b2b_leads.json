@@ -1,0 +1,134 @@
+[
+  {
+    "url": "https://www.nordicflow-analytics.io/",
+    "company_name": "NordicFlow Analytics | Modern B2B Data Telemetry | Official Site",
+    "meta_description": "Cloud-native product analytics and warehouse sync platform for European SaaS teams.",
+    "emails": [
+      "hello@nordicflow-analytics.io",
+      "maja.lindqvist@nordicflow-analytics.io",
+      "9f82b1c@sentry.io",
+      "hero-banner@2x.png"
+    ],
+    "phones": [
+      "+49 30 901820"
+    ],
+    "social_profiles": {
+      "linkedin": "https://www.linkedin.com/company/nordicflow-analytics",
+      "twitter_x": "https://x.com/nordicflow_io"
+    },
+    "tech_stack": [
+      "Next.js",
+      "Stripe",
+      "Cloudflare"
+    ],
+    "json_ld_types": [
+      "Organization",
+      "WebSite"
+    ],
+    "pages_crawled": 1,
+    "status_code": 200,
+    "error": null,
+    "city": "Berlin",
+    "country": "Germany",
+    "estimated_deal_usd": 2400
+  },
+  {
+    "url": "https://nordicflow-analytics.io/contact?utm_source=directory",
+    "company_name": "Contact Us - NordicFlow Analytics",
+    "meta_description": "",
+    "emails": [
+      "maja.lindqvist@nordicflow-analytics.io",
+      "partnerships@nordicflow-analytics.io"
+    ],
+    "phones": [
+      "+49 30 901820",
+      "+1 (415) 890-4312"
+    ],
+    "social_profiles": {
+      "youtube": "https://www.youtube.com/@nordicflow"
+    },
+    "tech_stack": [
+      "HubSpot",
+      "Google Tag Manager"
+    ],
+    "json_ld_types": [
+      "ContactPage"
+    ],
+    "pages_crawled": 1,
+    "status_code": 200,
+    "error": null
+  },
+  {
+    "url": "https://harborfreight-robotics.com",
+    "company_name": "HarborFreight Robotics | Warehouse AMR Systems",
+    "meta_description": "Autonomous mobile robotics and fleet orchestration for 3PL fulfillment centers.",
+    "emails": [
+      "mailto:devon.carter@harborfreight-robotics.com?subject=Inquiry",
+      "noreply@harborfreight-robotics.com",
+      "invalid-email-without-tld@localhost"
+    ],
+    "phones": [
+      "(512) 640-8821"
+    ],
+    "social_profiles": {
+      "linkedin": "https://www.linkedin.com/company/harborfreight-robotics",
+      "instagram": "https://www.instagram.com/harborfreightrobotics"
+    },
+    "tech_stack": [
+      "React",
+      "Intercom",
+      "GA4"
+    ],
+    "json_ld_types": [
+      "Organization"
+    ],
+    "pages_crawled": 2,
+    "status_code": 200,
+    "error": null,
+    "city": "Austin",
+    "country": "United States",
+    "estimated_deal_usd": 4800
+  },
+  {
+    "url": "https://veridian-biopack.sg",
+    "company_name": "Home | Veridian BioPack Singapore",
+    "meta_description": "Compostable cold-chain packaging for APAC pharmaceutical distributors.",
+    "emails": [
+      "sales@veridian-biopack.sg"
+    ],
+    "phones": [
+      "+65 6789 4321"
+    ],
+    "social_profiles": {
+      "linkedin": "https://www.linkedin.com/company/veridian-biopack"
+    },
+    "tech_stack": [
+      "Shopify",
+      "Cloudflare",
+      "Meta Pixel"
+    ],
+    "json_ld_types": [
+      "LocalBusiness",
+      "Product"
+    ],
+    "pages_crawled": 2,
+    "status_code": 200,
+    "error": null,
+    "city": "Singapore",
+    "country": "Singapore",
+    "estimated_deal_usd": 1850
+  },
+  {
+    "url": "https://unreachable-legacy-vendor.io",
+    "company_name": "",
+    "meta_description": "",
+    "emails": [],
+    "phones": [],
+    "social_profiles": {},
+    "tech_stack": [],
+    "json_ld_types": [],
+    "pages_crawled": 0,
+    "status_code": 502,
+    "error": "Upstream Bad Gateway"
+  }
+]
