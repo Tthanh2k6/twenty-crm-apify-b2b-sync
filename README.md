@@ -1,6 +1,8 @@
 # twenty-crm-apify-b2b-sync
 
-Production-grade asynchronous Python 3.11+ synchronization engine that pipes enriched B2B company and contact datasets from the public Apify Store Actor [`thanh81646/apify-b2b-lead-and-contact-enricher`](https://apify.com/thanh81646/apify-b2b-lead-and-contact-enricher) directly into **Twenty CRM** (Cloud or Self-Hosted) via Twenty's REST API.
+Asynchronous Python 3.11+ sync tool that takes the company and contact records produced by the public Apify Store Actor [`thanh81646/apify-b2b-lead-and-contact-enricher`](https://apify.com/thanh81646/apify-b2b-lead-and-contact-enricher) and writes them into **Twenty CRM** (Cloud or self-hosted) through Twenty's REST API.
+
+**Status:** a portfolio/demo project. It has not been used in production. The automated tests and the `--demo-mock` mode run against an in-memory mock of Twenty's `/rest/*` endpoints (`InMemoryTwentyMockTransport`), and the tests mock the Apify dataset API too; nothing here has been run against a live Twenty workspace by the tests. The payload shapes follow Twenty's open-source schema (`twentyhq/twenty`); check them against your Twenty version before a real sync.
 
 Built by **Trung Thanh Tran** ([Portfolio](https://trungthanhtran.vercel.app) | [Apify Store](https://apify.com/thanh81646) | [GitHub](https://github.com/Tthanh2k6)).
 
@@ -23,12 +25,12 @@ flowchart LR
 
 ## Key Engineering Capabilities
 
-1. **Twenty CRM 2026 Composite Schema Fidelity:** Maps flat scraper records into Twenty's exact nested composite metadata structures (`LinksMetadata`, `EmailsMetadata`, `PhonesMetadata`, `FullNameMetadata`, `AddressMetadata`, `CurrencyMetadata` in micros, and `RichTextMetadata` `bodyV2.markdown`) defined in `twentyhq/twenty`.
-2. **Multi-Page Domain Consolidation & Upsert Deduplication:** Crawling both `https://www.nordicflow-analytics.io/` and `https://nordicflow-analytics.io/contact` consolidates emails, phones, social links, and tech-stack tags under the single canonical domain `nordicflow-analytics.io` and queries `/rest/companies?filter=domainName.primaryLinkUrl[ilike]:%...%` before writing so duplicate `Company` rows are never created.
-3. **B2B Email Hygiene & Contact Ranking:** Rejects telemetry DSNs (`sentry.io`, `wixpress.com`), image asset false positives (`banner@2x.png`), placeholder domains (`example.com`), and `noreply@` addresses while promoting named human inboxes (`maja.lindqvist@`) ahead of generic role aliases (`hello@`, `info@`) for `emails.primaryEmail`.
-4. **Resilient Async HTTP Transport:** Uses `httpx.AsyncClient` with `Retry-After` header parsing and exponential backoff across `HTTP 429`, `500`, `502`, `503`, and `504` responses.
-5. **Idempotent Append-Only Audit Ledger:** Persists deterministic SHA-256 content hashes in `sync_audit.jsonl` so repeated Apify webhook deliveries or re-runs skip unchanged leads in `O(1)`.
-6. **HMAC-Verified Apify Webhook Handler:** Includes `twenty_sync.webhook` with constant-time `HMAC-SHA256` signature verification for automated `ACTOR.RUN.SUCCEEDED` ingestion.
+1. **Twenty composite fields:** Maps flat scraper records into Twenty's nested composite field structures (`LinksMetadata`, `EmailsMetadata`, `PhonesMetadata`, `FullNameMetadata`, `AddressMetadata`, `CurrencyMetadata` in micros, and `RichTextMetadata` `bodyV2.markdown`) defined in `twentyhq/twenty`.
+2. **Domain consolidation and upsert:** Records for `https://www.example.com/` and `https://example.com/contact` are merged (emails, phones, social links, tech-stack tags) under one canonical domain, `example.com`. Before writing, it queries `/rest/companies?filter=domainName.primaryLinkUrl[ilike]:%...%` and updates an existing `Company` instead of creating a duplicate.
+3. **Email cleanup and contact ranking:** Rejects telemetry DSNs (`sentry.io`, `wixpress.com`), image asset false positives (`banner@2x.png`), placeholder domains (`example.com`), and `noreply@` addresses and ranks personal-looking inboxes (`jane.doe@`) ahead of generic role aliases (`hello@`, `info@`) for `emails.primaryEmail`.
+4. **Retries:** Uses `httpx.AsyncClient` with `Retry-After` header parsing and exponential backoff across `HTTP 429`, `500`, `502`, `503`, and `504` responses.
+5. **Append-only audit ledger:** Persists deterministic SHA-256 content hashes in `sync_audit.jsonl` so repeated Apify webhook deliveries or re-runs skip unchanged leads in `O(1)`.
+6. **Apify webhook handler:** Includes `twenty_sync.webhook` with constant-time `HMAC-SHA256` signature verification for automated `ACTOR.RUN.SUCCEEDED` ingestion.
 
 ---
 
@@ -63,7 +65,7 @@ pip install -e ".[dev]"
 python -m twenty_sync.cli --dry-run --create-opportunities --output-preview ./preview_payloads.json
 ```
 
-### 3. Stateful End-to-End Mock Verification (`--demo-mock`)
+### 3. Run against the in-memory mock (`--demo-mock`)
 
 Executes the full HTTP lookup, upsert, Note attachment, Opportunity creation, and JSONL ledger pipeline against an in-memory Twenty CRM `/rest/*` server:
 
@@ -99,6 +101,8 @@ In the Apify Console for [`thanh81646/apify-b2b-lead-and-contact-enricher`](http
 ---
 
 ## Running the Test Suite
+
+The tests use the in-memory Twenty mock and `httpx.MockTransport` for Apify; no network access or API keys are needed.
 
 ```bash
 pytest -v
