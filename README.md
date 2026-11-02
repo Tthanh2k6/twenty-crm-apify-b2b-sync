@@ -29,7 +29,7 @@ flowchart LR
 2. **Domain consolidation and upsert:** Records for `https://www.example.com/` and `https://example.com/contact` are merged (emails, phones, social links, tech-stack tags) under one canonical domain, `example.com`. Before writing, it queries `/rest/companies?filter=domainName.primaryLinkUrl[ilike]:%...%` and updates an existing `Company` instead of creating a duplicate.
 3. **Email cleanup and contact ranking:** Rejects telemetry DSNs (`sentry.io`, `wixpress.com`), image asset false positives (`banner@2x.png`), placeholder domains (`example.com`), and `noreply@` addresses and ranks personal-looking inboxes (`jane.doe@`) ahead of generic role aliases (`hello@`, `info@`) for `emails.primaryEmail`.
 4. **Retries:** Uses `httpx.AsyncClient` with `Retry-After` header parsing and exponential backoff across `HTTP 429`, `500`, `502`, `503`, and `504` responses.
-5. **Append-only audit ledger:** Persists deterministic SHA-256 content hashes in `sync_audit.jsonl` so repeated Apify webhook deliveries or re-runs skip unchanged leads in `O(1)`.
+5. **Append-only audit ledger:** Persists deterministic SHA-256 hashes in `sync_audit.jsonl` so repeated Apify webhook deliveries or re-runs skip leads already synced. The hash covers only the canonical domain, the cleaned emails and the tech stack, so a lead whose name, phone or address changed but whose domain/emails/tech stack did not is also skipped.
 6. **Apify webhook handler:** Includes `twenty_sync.webhook` with constant-time `HMAC-SHA256` signature verification for automated `ACTOR.RUN.SUCCEEDED` ingestion.
 
 ---

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "twenty-crm-apify-b2b-sync"
 version = "1.0.0"
-description = "Idempotent async B2B lead enrichment sync engine connecting Apify Store Actors to Twenty CRM REST & GraphQL APIs."
+description = "Idempotent async B2B lead enrichment sync engine that writes Apify Store Actor results into Twenty CRM through its REST API."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
